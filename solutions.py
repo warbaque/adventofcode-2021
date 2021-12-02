@@ -11,6 +11,15 @@ from collections import deque, defaultdict, Counter
 inputs = dict((f"day{i+1}", f"inputs/{i+1}") for i in range(25))
 
 
+# https://adventofcode.com/2021/day/1
+def day1(input):
+    numbers = [int(i) for i in input.split()]
+    sliding_sums = [sum(x) for x in zip(numbers, numbers[1:], numbers[2:])]
+
+    print(sum(x1 > x0 for x0, x1 in zip(numbers, numbers[1:])))
+    print(sum(x1 > x0 for x0, x1 in zip(sliding_sums, sliding_sums[1:])))
+
+
 def profiler(method):
     def wrapper(*arg, **kw):
         t0 = time.time()
