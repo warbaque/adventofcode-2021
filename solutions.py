@@ -20,6 +20,30 @@ def day1(input):
     print(sum(x1 > x0 for x0, x1 in zip(sliding_sums, sliding_sums[1:])))
 
 
+# https://adventofcode.com/2021/day/2
+def day2(input):
+    commands = input.strip().split('\n')
+    r = re.compile(r'(\S+) (\d+)')
+
+    move = {
+        'forward'   : lambda x: x,
+        'up'        : lambda x: x * (-1j),
+        'down'      : lambda x: x * (+1j),
+    }
+
+    pos1 = 0
+    pos2 = 0
+    for cmd in commands:
+        direction, length = r.match(cmd).groups()
+        pos1 += move[direction](int(length))
+        if direction == 'forward':
+            pos2 += int(length) * (1 + pos1.imag * 1j)
+
+    print(int(pos1.real * pos1.imag))
+    print(int(pos2.real * pos2.imag))
+
+
+
 def profiler(method):
     def wrapper(*arg, **kw):
         t0 = time.time()
