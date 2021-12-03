@@ -43,6 +43,33 @@ def day2(input):
     print(int(pos2.real * pos2.imag))
 
 
+# https://adventofcode.com/2021/day/3
+def day3(input):
+    diagnostic = input.strip().split()
+    transposed = list(zip(*reversed(diagnostic)))
+
+    most_common_bits = [
+        bitcolumn.count('1') >= len(diagnostic) / 2
+        for bitcolumn in transposed
+    ]
+
+    gamma   = int(''.join(str(0 ^ x) for x in most_common_bits), 2)
+    epsilon = int(''.join(str(1 ^ x) for x in most_common_bits), 2)
+
+    def part2(data, fn):
+        for i in range(len(data[0])):
+            transposed = list(zip(*reversed(data)))
+            filterbit = fn(transposed[i], key=lambda x: (transposed[i].count(x), x))
+            data = list(filter(lambda x: x[i] == filterbit, data))
+        return(data[0])
+
+    oxy = part2(diagnostic[:], max)
+    co2 = part2(diagnostic[:], min)
+
+    print(gamma * epsilon)
+    print(int(oxy, 2) * int(co2, 2))
+
+
 
 def profiler(method):
     def wrapper(*arg, **kw):
